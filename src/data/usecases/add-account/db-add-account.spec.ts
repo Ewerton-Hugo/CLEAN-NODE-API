@@ -1,6 +1,9 @@
 import { Interface } from 'readline'
 import {DbAddAccount} from './db-add-account'
-import {Encrypter} from '../../protocols/encrypter'
+import {Encrypter} from './db-add-account-protocols'
+import { promises } from 'dns'
+import { resolve } from 'path'
+import { rejects } from 'assert'
 interface SutTypes{
     sut:DbAddAccount
     encrypterStub: Encrypter
@@ -27,6 +30,7 @@ const makeSut = (): SutTypes =>{
 }
 
 describe('DbAddAccount Usecase', () => {
+
     test('Should call Encrypter with  correct password', async () =>{
         const {sut, encrypterStub} = makeSut()
         const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
@@ -40,6 +44,24 @@ describe('DbAddAccount Usecase', () => {
 
         await sut.add(accountData)
         expect(encryptSpy).toHaveBeenCalledWith('valid_password')
+    })
+
+})
+describe('DbAddAccount Usecase', () => {
+
+    test('Should throws if Encrypter throws', async () =>{
+        const {sut, encrypterStub} = makeSut()
+        jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((resolve,rejects) => rejects (new Error())))
+        const accountData = {
+            name: 'valid_name',
+            email: 'valid_email',
+            password: 'valid_password'
+
+
+        }
+
+        const promise = sut.add(accountData)
+        await expect(promise).rejects.toThrow()
     })
 
 })
