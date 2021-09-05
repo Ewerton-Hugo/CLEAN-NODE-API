@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^24.0.25",
-    "@types/node": "^13.1.6",
+    "@types/node": "^13.13.52",
     "@types/validator": "^13.6.3",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "git-commit-msg-linter": "^2.3.11",
@@ -25,6 +25,9 @@
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
+    "pg": "^8.7.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.37",
     "validator": "^13.6.0"
   }
 }
